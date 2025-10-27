@@ -1,4 +1,16 @@
-// Number Bond Creator logic
+//window.addEventListener('load', () => {
+    class NumberBondMaker {
+        constructor() {
+            this.problemTypes = ['whole'];
+            this.visualAids = {
+                dots: true,
+                grid: false,
+                lines: true
+            };
+            this.setupEventListeners();
+            this.initializeState();
+            this.updatePreview();
+        } Creator logic
 
 window.addEventListener('load', () => {
     class NumberBondMaker {
