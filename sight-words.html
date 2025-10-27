@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sight Words Generator - TeacherForge Hub</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Sight Words Generator</h1>
+            <p>Create printable sight word worksheets for your students</p>
+            <nav class="main-nav">
+                <a href="index.html" class="nav-link">← Back to TeacherForge Hub</a>
+            </nav>
+        </header>
+
+        <main class="tool-section">
+            <form id="sightWordsForm">
+                <div class="form-group">
+                    <label for="title">Worksheet Title:</label>
+                    <input type="text" id="title" name="title" placeholder="e.g., Kindergarten High-Frequency Sight Words" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="description">Description or Instructions:</label>
+                    <textarea id="description" name="description" placeholder="Add any special instructions or notes for the worksheet..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="wordList">Word List:</label>
+                    <textarea id="wordList" name="wordList" placeholder="Enter words separated by commas or spaces..." required></textarea>
+                </div>
+
+                <button type="submit" id="generatePdf">Generate PDF</button>
+            </form>
+        </main>
+    </div>
+
+    <script>
+        window.jsPDF = window.jspdf.jsPDF;
+
+        document.getElementById('sightWordsForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            generatePDF();
+        });
+
+        function generatePDF() {
+            const title = document.getElementById('title').value;
+            const description = document.getElementById('description').value;
+            const wordList = document.getElementById('wordList').value;
+
+            const words = wordList.split(/[\s,]+/).filter(word => word.trim() !== '');
+
+            const doc = new jsPDF();
+            
+            doc.setFontSize(20);
+            doc.text(title, doc.internal.pageSize.width / 2, 20, { align: 'center' });
+
+            if (description) {
+                doc.setFontSize(12);
+                doc.text(description, 20, 35);
+            }
+
+            const COLUMNS = 4;
+            const rows = [];
+            for (let i = 0; i < words.length; i += COLUMNS) {
+                rows.push(words.slice(i, i + COLUMNS));
+            }
+
+            doc.autoTable({
+                startY: description ? 45 : 30,
+                head: [],
+                body: rows,
+                theme: 'grid',
+                styles: {
+                    fontSize: 14,
+                    cellPadding: 5,
+                    halign: 'center'
+                },
+                columnStyles: {
+                    0: { cellWidth: 'auto' },
+                    1: { cellWidth: 'auto' },
+                    2: { cellWidth: 'auto' },
+                    3: { cellWidth: 'auto' }
+                },
+                margin: { top: 20 }
+            });
+
+            doc.save(title.replace(/\s+/g, '_') + '.pdf');
+        }
+    </script>
+</body>
+</html>
