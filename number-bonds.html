@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Number Bond Creator - TeacherForge Hub</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" defer></script>
+        <script src="js/number-bonds-fixed.js" defer></script>
+    <style>
+        .number-bond-group {
+            background: var(--background-light);
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .number-range {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .number-range input[type="number"] {
+            width: 80px;
+        }
+
+        .bond-settings {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .problem-type-selector {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .problem-type-selector label {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .visualization-options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            padding: 15px;
+            background: white;
+            border-radius: 4px;
+        }
+
+        .visualization-options h4 {
+            margin: 0 0 10px 0;
+        }
+
+        .preview-section {
+            margin-top: 20px;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .preview-section h3 {
+            margin-top: 0;
+        }
+
+        .number-bond {
+            width: 300px;
+            height: 200px;
+            margin: 20px auto;
+            position: relative;
+        }
+
+        .number-bond circle {
+            fill: white;
+            stroke: var(--accent-color);
+            stroke-width: 2;
+        }
+
+        .number-bond line {
+            stroke: var(--accent-color);
+            stroke-width: 2;
+        }
+
+        .number-bond text {
+            font-size: 24px;
+            text-anchor: middle;
+            dominant-baseline: middle;
+            fill: var(--text-color);
+        }
+
+        .problem-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .manipulatives-guide {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin: 15px 0;
+        }
+
+        .manipulative {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: var(--accent-color-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: var(--accent-color);
+        }
+
+        .grid-guide {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 5px;
+            width: fit-content;
+            margin: 15px 0;
+        }
+
+        .grid-cell {
+            width: 30px;
+            height: 30px;
+            border: 1px solid var(--accent-color-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .tracking-section {
+            margin-top: 15px;
+            padding: 15px;
+            background: var(--background-light);
+            border-radius: 4px;
+        }
+
+        .tracking-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .tracking-cell {
+            aspect-ratio: 1;
+            background: white;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .tracking-cell.completed {
+            background: var(--accent-color-light);
+            color: var(--accent-color);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🔢 Number Bond Creator</h1>
+            <p class="subtitle">Generate visual number bond worksheets for addition and subtraction practice</p>
+            <nav class="main-nav">
+                <a href="index.html" class="nav-link">← Back to TeacherForge Hub</a>
+            </nav>
+        </header>
+
+        <main>
+            <div class="generator-section">
+                <form id="numberBondForm">
+                    <div class="form-group">
+                        <label for="title">Worksheet Title <span class="required">*</span></label>
+                        <input 
+                            type="text" 
+                            id="title" 
+                            name="title" 
+                            placeholder="e.g., Number Bonds to 10 - Week 1" 
+                            required
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="instructions">Instructions <span class="optional">(optional)</span></label>
+                        <textarea 
+                            id="instructions" 
+                            name="instructions" 
+                            rows="2" 
+                            placeholder="e.g., Fill in the missing numbers to complete each number bond."
+                        ></textarea>
+                    </div>
+
+                    <div class="number-bond-group">
+                        <div class="form-section">
+                            <h3>1. Choose Number Range</h3>
+                            <div class="number-range">
+                                <div class="form-group">
+                                    <label for="minNumber">Minimum Number:</label>
+                                    <input type="number" id="minNumber" name="minNumber" min="0" max="19" value="0" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="maxNumber">Maximum Number:</label>
+                                    <input type="number" id="maxNumber" name="maxNumber" min="1" max="20" value="10" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bond-settings">
+                            <div class="problem-type-selector">
+                                <h4>Problem Types</h4>
+                                <label>
+                                    <input type="checkbox" name="problemTypes" value="whole" checked>
+                                    Find the Whole (e.g., 3 + 4 = ?)
+                                </label>
+                                <label>
+                                    <input type="checkbox" name="problemTypes" value="part">
+                                    Find a Part (e.g., 7 - 3 = ?)
+                                </label>
+                                <label>
+                                    <input type="checkbox" name="problemTypes" value="mixed" checked>
+                                    Mixed Practice
+                                </label>
+                            </div>
+
+                            <div class="visualization-options">
+                                <h4>Visual Aids</h4>
+                                <label>
+                                    <input type="checkbox" name="showDots" checked>
+                                    Show Dot Patterns
+                                </label>
+                                <label>
+                                    <input type="checkbox" name="showGrid">
+                                    Show Ten Frame Grid
+                                </label>
+                                <label>
+                                    <input type="checkbox" name="showLines" checked>
+                                    Show Number Lines
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="preview-section">
+                            <h3>Preview</h3>
+                            <div class="number-bond">
+                                <svg width="300" height="250" viewBox="0 0 300 250">
+                                    <!-- Background for visual aids -->
+                                    <g class="visual-aids-container"></g>
+                                    
+                                    <!-- Lines -->
+                                    <line x1="150" y1="120" x2="150" y2="50" stroke="#333" stroke-width="2"/>
+                                    <line x1="150" y1="50" x2="75" y2="30" stroke="#333" stroke-width="2"/>
+                                    <line x1="150" y1="50" x2="225" y2="30" stroke="#333" stroke-width="2"/>
+                                    
+                                    <!-- Circles -->
+                                    <circle cx="150" cy="120" r="30" fill="white" stroke="#333" stroke-width="2"/>
+                                    <circle cx="75" cy="30" r="25" fill="white" stroke="#333" stroke-width="2"/>
+                                    <circle cx="225" cy="30" r="25" fill="white" stroke="#333" stroke-width="2"/>
+                                    
+                                    <!-- Numbers -->
+                                    <text x="150" y="120" text-anchor="middle" dominant-baseline="middle" font-size="24">7</text>
+                                    <text x="75" y="30" text-anchor="middle" dominant-baseline="middle" font-size="24">3</text>
+                                    <text x="225" y="30" text-anchor="middle" dominant-baseline="middle" font-size="24">4</text>
+                                    
+                                    <!-- Operation text below -->
+                                    <text class="operation" x="150" y="180" text-anchor="middle" font-size="24" fill="#333">3 + 4 = 7</text>
+                                    
+                                    <!-- Visual aids will be added here by JavaScript -->
+                                    <g class="visual-aids"></g>
+                                </svg>
+                            </div>
+                        </div>
+
+                        <div class="tracking-section">
+                            <h4>Progress Tracking Grid</h4>
+                            <p>Track which number combinations have been practiced:</p>
+                            <div class="tracking-grid" id="trackingGrid">
+                                <!-- Grid cells will be added by JavaScript -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="button-group">
+                        <button type="submit" class="btn btn-primary">Generate Worksheet</button>
+                        <button type="button" id="clearBtn" class="btn btn-secondary">Clear</button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="info-section">
+                <h3>About Number Bonds</h3>
+                <p>Number bonds help students understand the relationship between numbers and develop mental math skills. They show how numbers can be split into parts or combined to make a whole.</p>
+                
+                <h4>Features:</h4>
+                <ul>
+                    <li>Customizable number ranges up to 20</li>
+                    <li>Visual aids with dot patterns and ten frames</li>
+                    <li>Progress tracking grid</li>
+                    <li>Mixed practice options</li>
+                </ul>
+
+                <h4>How to Use:</h4>
+                <ol>
+                    <li>Set your desired number range</li>
+                    <li>Choose problem types to include</li>
+                    <li>Select visual aids if needed</li>
+                    <li>Click "Generate Worksheet" to create your PDF</li>
+                </ol>
+            </div>
+        </main>
+
+        <footer>
+            <p>Made with ❤️ for teachers everywhere</p>
+        </footer>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay" class="loading-overlay" style="display: none;">
+        <div class="loading-spinner"></div>
+        <p class="loading-text">Generating your worksheet...</p>
+    </div>
+</body>
+</html>
