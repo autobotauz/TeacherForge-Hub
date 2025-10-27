@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phonics Sound Sheet Maker - TeacherForge Hub</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.29/jspdf.plugin.autotable.min.js" defer></script>
+    <script src="js/pdf-constants.js" defer></script>
+    <script src="js/pdf-utils.js" defer></script>
+    <script src="js/phonics-data.js" defer></script>
+    <script src="js/phonics.js" defer></script>
+    <style>
+        .sound-group {
+            background: var(--background-light);
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+
+        .sound-type {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .sound-type label {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .examples-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+
+        .examples-header small {
+            display: block;
+            margin-top: 4px;
+            color: var(--text-muted);
+        }
+
+        .examples-header button {
+            white-space: nowrap;
+        }
+
+        .example-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+            padding: 15px;
+            background: var(--background-light);
+            border-radius: 8px;
+        }
+
+        .filled-suggestion {
+            animation: highlightSuggestion 1s ease;
+        }
+
+        @keyframes highlightSuggestion {
+            0% { background-color: var(--accent-color-light); }
+            100% { background-color: white; }
+        }
+
+        .example-input {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .example-input input {
+            flex: 1;
+        }
+
+        .color-options {
+            padding: 15px;
+            background: var(--background-light);
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+
+        .color-options-info {
+            margin: 10px 0;
+            padding: 10px;
+            border-left: 3px solid var(--accent-color);
+            background: white;
+        }
+
+        .color-options-info p {
+            margin: 0 0 8px 0;
+            font-weight: 500;
+        }
+
+        .color-options-info ul {
+            margin: 0;
+            padding-left: 20px;
+        }
+
+        .color-options-info li {
+            margin: 4px 0;
+        }
+
+        .color-customization {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .color-option {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px;
+            background: white;
+            border-radius: 4px;
+        }
+
+        .color-option input[type="color"] {
+            width: 40px;
+            height: 40px;
+            padding: 0;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .color-option span {
+            font-size: 0.9em;
+        }
+
+        .audio-cue {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            color: var(--accent-color);
+            font-size: 0.9em;
+        }
+
+        .audio-cue svg {
+            width: 16px;
+            height: 16px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🔤 Phonics Sound Sheet Maker</h1>
+            <p class="subtitle">Create printable phonics worksheets with sound patterns and examples</p>
+            <nav class="main-nav">
+                <a href="index.html" class="nav-link">← Back to TeacherForge Hub</a>
+            </nav>
+        </header>
+
+        <main>
+            <div class="generator-section">
+                <form id="phonicsForm">
+                    <div class="form-group">
+                        <label for="title">Worksheet Title <span class="required">*</span></label>
+                        <input 
+                            type="text" 
+                            id="title" 
+                            name="title" 
+                            placeholder="e.g., Short Vowel Sounds - Week 1" 
+                            required
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="instructions">Instructions <span class="optional">(optional)</span></label>
+                        <textarea 
+                            id="instructions" 
+                            name="instructions" 
+                            rows="2" 
+                            placeholder="e.g., Listen to the sound and circle the matching word."
+                        ></textarea>
+                    </div>
+
+                    <div class="sound-group">
+                        <div class="form-section">
+                            <h3>1. Choose What to Practice</h3>
+                            <div class="form-group">
+                                <label>Sound Type <span class="required">*</span></label>
+                                <select id="soundType" name="soundType" required>
+                                    <option value="singleSounds">Single Letter Sounds (a, b, c...)</option>
+                                    <option value="blends">Blends (bl, br, cl...)</option>
+                                    <option value="digraphs">Digraphs (sh, th, ch...)</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="sound">Select Sound to Practice <span class="required">*</span></label>
+                                <select id="sound" name="sound" required>
+                                    <!-- Options will be populated by JavaScript -->
+                                </select>
+                                <div class="sound-preview">
+                                    <div id="soundInfo" class="sound-info"></div>
+                                    <div class="sound-example">
+                                        Students will see: <span class="preview-text"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="color-options">
+                            <label>Differentiation Colors:</label>
+                            <div class="color-options-info">
+                                <p>Colors are automatically applied based on sound type difficulty:</p>
+                                <ul>
+                                    <li>Single Sounds - Beginner (default: pink)</li>
+                                    <li>Blends - Intermediate (default: green)</li>
+                                    <li>Digraphs - Advanced (default: blue)</li>
+                                </ul>
+                            </div>
+                            <div class="color-customization">
+                                <div class="color-option">
+                                    <input type="color" value="#FFE0E0" id="beginnerColor">
+                                    <span>Beginner (Single Sounds)</span>
+                                </div>
+                                <div class="color-option">
+                                    <input type="color" value="#E0FFE0" id="intermediateColor">
+                                    <span>Intermediate (Blends)</span>
+                                </div>
+                                <div class="color-option">
+                                    <input type="color" value="#E0E0FF" id="advancedColor">
+                                    <span>Advanced (Digraphs)</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h3>2. Add Practice Words</h3>
+                        <div class="examples-header">
+                            <div>
+                                <label>Example Words <span class="required">*</span></label>
+                                <small>Add words that contain the sound for students to practice</small>
+                            </div>
+                            <button type="button" id="suggestExamples" class="secondary-button">
+                                🎲 Get Word Suggestions
+                            </button>
+                        </div>
+                        <div class="example-help">
+                            <p>For example, if practicing the sound "A":</p>
+                            <ul class="example-list">
+                                <li><strong>apple</strong></li>
+                                <li><strong>cat</strong></li>
+                                <li><strong>hat</strong></li>
+                            </ul>
+                        </div>
+                        
+                        <div class="example-grid" id="exampleGrid">
+                            <div class="example-input">
+                                <input type="text" id="example1" name="example1" placeholder="cat" required>
+                            </div>
+                            <div class="example-input">
+                                <input type="text" id="example2" name="example2" placeholder="bat" required>
+                            </div>
+                            <div class="example-input">
+                                <input type="text" id="example3" name="example3" placeholder="hat">
+                            </div>
+                            <div class="example-input">
+                                <input type="text" id="example4" name="example4" placeholder="mat">
+                            </div>
+                            <div class="example-input">
+                                <input type="text" id="example5" name="example5" placeholder="rat">
+                            </div>
+                            <div class="example-input">
+                                <input type="text" id="example6" name="example6" placeholder="fan">
+                            </div>
+                            <div class="example-input">
+                                <input type="text" id="example7" name="example7" placeholder="map">
+                            </div>
+                            <div class="example-input">
+                                <input type="text" id="example8" name="example8" placeholder="dad">
+                            </div>
+                            <div class="example-input">
+                                <input type="text" id="example9" name="example9" placeholder="bag">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="button-group">
+                        <button type="submit" class="btn btn-primary">Generate Worksheet</button>
+                        <button type="button" id="clearBtn" class="btn btn-secondary">Clear</button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="info-section">
+                <h3>How to Use</h3>
+                <ol>
+                    <li>Enter a title for your worksheet</li>
+                    <li>Add optional instructions for students</li>
+                    <li>Select the type of sounds you want to practice</li>
+                    <li>Choose colors for differentiation (optional)</li>
+                    <li>Add up to 6 example words</li>
+                    <li>Click "Generate Worksheet" to create your PDF</li>
+                </ol>
+                <p><strong>Note:</strong> Students should be encouraged to say the sounds aloud when practicing.</p>
+            </div>
+        </main>
+
+        <footer>
+            <p>Made with ❤️ for teachers everywhere</p>
+        </footer>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay" class="loading-overlay" style="display: none;">
+        <div class="loading-spinner"></div>
+        <p class="loading-text">Generating your worksheet...</p>
+    </div>
+
+    <!-- End of page content -->
+</body>
+</html>

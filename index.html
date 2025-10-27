@@ -13,35 +13,93 @@
             <p class="subtitle">Create custom learning materials for your students</p>
         </header>
 
-        <main class="landing-page">
-            <div class="tools-grid">
-                <a href="sight-words.html" class="tool-card">
-                    <div class="tool-icon">📝</div>
-                    <h2>Sight Words Generator</h2>
-                    <p class="description">Create printable PDFs with sight words in an easy-to-read table format. Perfect for Pre-K to 2nd grade students.</p>
-                    <div class="button-group">
-                        <button class="btn btn-primary">Get Started →</button>
-                    </div>
-                </a>
+        <main>
+            <nav class="grade-band-nav">
+                <button class="grade-band-btn active" data-grade="all">All Tools</button>
+                <button class="grade-band-btn" data-grade="k-2">K-2</button>
+                <button class="grade-band-btn" data-grade="3-5">3-5</button>
+                <button class="grade-band-btn" data-grade="6-8">6-8</button>
+                <button class="grade-band-btn" data-grade="9-12">9-12</button>
+            </nav>
 
-                <div class="tool-card disabled">
-                    <div class="tool-icon">🔜</div>
-                    <h2>More Tools Coming Soon</h2>
-                    <p class="description">We're working on adding more educational resources to help make your teaching experience even better!</p>
-                    <div class="button-group">
-                        <button class="btn btn-secondary" disabled>Coming Soon</button>
+            <section class="tool-category" data-grade="k-2">
+                <div class="category-header">
+                    <h2>K-2 Early Literacy & Numeracy</h2>
+                    <p>Tools for foundational skills in reading, writing, and math</p>
+                </div>
+                <div class="tools-grid">
+                    <a href="sight-words.html" class="tool-card">
+                        <span class="grade-band">K-2</span>
+                        <div class="tool-icon">📝</div>
+                        <h2>Sight Words Generator</h2>
+                        <p>Create customized sight word worksheets for early readers.</p>
+                        <ul class="tool-features">
+                            <li>Custom word lists</li>
+                            <li>Print-ready PDFs</li>
+                            <li>Organized table format</li>
+                        </ul>
+                        <span class="tool-cta">Create Worksheet →</span>
+                    </a>
+
+                    <a href="phonics.html" class="tool-card">
+                        <span class="grade-band">K-2</span>
+                        <div class="tool-icon">🔤</div>
+                        <h2>Phonics Sound Sheet Maker</h2>
+                        <p>Generate printable sheets with letter sounds, blends, and matching images.</p>
+                        <ul class="tool-features">
+                            <li>Audio cue icons</li>
+                            <li>Color-coded differentiation</li>
+                            <li>4-6 examples per sheet</li>
+                        </ul>
+                        <span class="tool-cta">Create Worksheet →</span>
+                    </a>
+
+                    <div class="tool-card">
+                        <span class="grade-band">K-2</span>
+                        <span class="coming-soon-label">Coming Soon</span>
+                        <div class="tool-icon">�</div>
+                        <h2>Number Bond Creator</h2>
+                        <p>Visual number bond worksheets for addition/subtraction up to 20.</p>
+                        <ul class="tool-features">
+                            <li>Auto-generated problems</li>
+                            <li>Manipulatives outlines</li>
+                            <li>Progress tracking grid</li>
+                        </ul>
+                        <span class="tool-cta">Available Soon →</span>
                     </div>
                 </div>
-            </div>
+            </section>
+
+            <section class="tool-category" data-grade="3-5">
+                <div class="category-header">
+                    <h2>3-5 Building Foundations</h2>
+                    <p>Tools for developing critical thinking and core subject mastery</p>
+                </div>
+                <div class="tools-grid">
+                    <div class="tool-card">
+                        <span class="grade-band">3-5</span>
+                        <span class="coming-soon-label">Coming Soon</span>
+                        <div class="tool-icon">📊</div>
+                        <h2>Fraction Visualizer</h2>
+                        <p>Create fraction strips, pie charts, and comparison problems.</p>
+                        <ul class="tool-features">
+                            <li>Visual fraction models</li>
+                            <li>Word problem generator</li>
+                            <li>Step-by-step solutions</li>
+                        </ul>
+                        <span class="tool-cta">Available Soon →</span>
+                    </div>
+                </div>
+            </section>
 
             <div class="info-section">
                 <h3>About TeacherForge Hub</h3>
-                <p>TeacherForge Hub is a collection of free tools designed to help teachers create custom learning materials for their students. Our tools are:</p>
+                <p>TeacherForge Hub provides free, easy-to-use tools for creating custom learning materials. Our mission is to help teachers save time and resources while delivering quality educational content.</p>
                 <ul>
-                    <li>Free to use</li>
-                    <li>Easy to customize</li>
-                    <li>Print-ready</li>
-                    <li>Created with teachers in mind</li>
+                    <li>No registration required</li>
+                    <li>Works offline after initial load</li>
+                    <li>Privacy-focused - no data collection</li>
+                    <li>Regular updates with new tools</li>
                 </ul>
             </div>
         </main>
@@ -50,5 +108,6 @@
             <p>Made with ❤️ for teachers everywhere</p>
         </footer>
     </div>
+    <script src="main.js"></script>
 </body>
 </html>
