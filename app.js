@@ -58,7 +58,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Create a printable page that opens in a new window
     function createPrintablePage(title, description, words) {
         // Create HTML for the printable page
-        const printWindow = window.open('', '_blank');
+        const printWindow = window.open('', '_blank', 'noopener,noreferrer');
         
         if (!printWindow) {
             alert('Please allow pop-ups to generate the PDF');
@@ -194,10 +194,10 @@ document.addEventListener('DOMContentLoaded', function() {
     </div>
     
     <script>
-        // Auto-print dialog after a short delay
+        // Auto-print dialog after a short delay to give users time to review
         setTimeout(() => {
             window.print();
-        }, 500);
+        }, 1000);
     </script>
 </body>
 </html>
