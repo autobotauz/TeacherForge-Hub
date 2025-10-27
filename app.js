@@ -117,3 +117,4 @@ document.addEventListener('DOMContentLoaded', function() {
         doc.save(title.replace(/\s+/g, '_') + '.pdf');
     }
 });
+
