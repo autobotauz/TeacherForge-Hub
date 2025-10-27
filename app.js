@@ -55,6 +55,13 @@ document.addEventListener('DOMContentLoaded', function() {
         createPrintablePage(title, description, words);
     }
     
+    // Helper function to escape HTML
+    function escapeHtml(text) {
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+    }
+    
     // Create a printable page that opens in a new window
     function createPrintablePage(title, description, words) {
         // Create HTML for the printable page
@@ -73,7 +80,7 @@ document.addEventListener('DOMContentLoaded', function() {
             tableRows += '<tr>';
             for (let j = 0; j < columns; j++) {
                 const word = i + j < words.length ? words[i + j] : '';
-                tableRows += `<td>${word}</td>`;
+                tableRows += `<td>${escapeHtml(word)}</td>`;
             }
             tableRows += '</tr>';
         }
@@ -205,12 +212,5 @@ document.addEventListener('DOMContentLoaded', function() {
         
         printWindow.document.write(htmlContent);
         printWindow.document.close();
-    }
-    
-    // Helper function to escape HTML
-    function escapeHtml(text) {
-        const div = document.createElement('div');
-        div.textContent = text;
-        return div.innerHTML;
     }
 });
