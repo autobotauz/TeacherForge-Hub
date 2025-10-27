@@ -3,39 +3,52 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TeacherForge Hub - Educational Resources for Teachers</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <title>TeacherForge Hub - Educational Resources</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="container">
-        <header class="main-header">
-            <h1>TeacherForge Hub</h1>
-            <p>Free educational resources and tools for teachers</p>
+        <header>
+            <h1>🎓 TeacherForge Hub</h1>
+            <p class="subtitle">Create custom learning materials for your students</p>
         </header>
 
-        <main>
-            <section class="tools-grid">
+        <main class="landing-page">
+            <div class="tools-grid">
                 <a href="sight-words.html" class="tool-card">
                     <div class="tool-icon">📝</div>
                     <h2>Sight Words Generator</h2>
-                    <p>Create customized sight word worksheets for Pre-K to 2nd grade students. Generate printable PDFs with your own word lists.</p>
-                    <span class="tool-cta">Create Worksheet →</span>
+                    <p class="description">Create printable PDFs with sight words in an easy-to-read table format. Perfect for Pre-K to 2nd grade students.</p>
+                    <div class="button-group">
+                        <button class="btn btn-primary">Get Started →</button>
+                    </div>
                 </a>
-                
-                <div class="tool-card coming-soon">
+
+                <div class="tool-card disabled">
                     <div class="tool-icon">🔜</div>
                     <h2>More Tools Coming Soon</h2>
-                    <p>We're working on adding more educational resources. Stay tuned for new tools!</p>
-                    <span class="tool-cta disabled">Coming Soon</span>
+                    <p class="description">We're working on adding more educational resources to help make your teaching experience even better!</p>
+                    <div class="button-group">
+                        <button class="btn btn-secondary" disabled>Coming Soon</button>
+                    </div>
                 </div>
-            </section>
+            </div>
+
+            <div class="info-section">
+                <h3>About TeacherForge Hub</h3>
+                <p>TeacherForge Hub is a collection of free tools designed to help teachers create custom learning materials for their students. Our tools are:</p>
+                <ul>
+                    <li>Free to use</li>
+                    <li>Easy to customize</li>
+                    <li>Print-ready</li>
+                    <li>Created with teachers in mind</li>
+                </ul>
+            </div>
         </main>
 
         <footer>
-            <p>TeacherForge Hub - Making teaching resources accessible and easy to use.</p>
+            <p>Made with ❤️ for teachers everywhere</p>
         </footer>
     </div>
 </body>
 </html>
-
