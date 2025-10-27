@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sight Words Generator - TeacherForge Hub</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎓 TeacherForge Hub</h1>
+            <p class="subtitle">Sight Words Generator</p>
+            <nav class="main-nav">
+                <a href="index.html" class="nav-link">← Back to TeacherForge Hub</a>
+            </nav>
+        </header>
+
+        <main>
+            <div class="generator-section">
+                <h2>Sight Word Generator</h2>
+                <p class="description">Create a printable PDF with sight words in an easy-to-read table format</p>
+
+                <form id="wordGeneratorForm">
+                    <div class="form-group">
+                        <label for="title">Title <span class="required">*</span></label>
+                        <input 
+                            type="text" 
+                            id="title" 
+                            name="title" 
+                            placeholder="e.g., Kindergarten Sight Words - Week 1" 
+                            required
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="description">Description / Instructions <span class="optional">(optional)</span></label>
+                        <textarea 
+                            id="description" 
+                            name="description" 
+                            rows="3" 
+                            placeholder="e.g., Practice reading these words daily. Circle the words you can read."
+                        ></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="words">Word List <span class="required">*</span></label>
+                        <textarea 
+                            id="words" 
+                            name="words" 
+                            rows="8" 
+                            placeholder="Enter one word per line:&#10;the&#10;and&#10;is&#10;you&#10;to&#10;of&#10;it&#10;in" 
+                            required
+                        ></textarea>
+                        <small>Enter each word on a new line</small>
+                    </div>
+
+                    <div class="button-group">
+                        <button type="submit" class="btn btn-primary">Generate PDF</button>
+                        <button type="button" id="clearBtn" class="btn btn-secondary">Clear</button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="info-section">
+                <h3>How to Use</h3>
+                <ol>
+                    <li>Enter a title for your worksheet</li>
+                    <li>Add optional instructions or description</li>
+                    <li>Type or paste your sight words (one per line)</li>
+                    <li>Click "Generate PDF" to create your printable worksheet</li>
+                </ol>
+            </div>
+        </main>
+
+        <footer>
+            <p>Made with ❤️ for teachers everywhere</p>
+        </footer>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
