@@ -6,7 +6,7 @@
     <title>Number Bond Creator - TeacherForge Hub</title>
     <link rel="stylesheet" href="styles.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" defer></script>
-        <script src="js/number-bonds-v2.js" defer></script>
+        <script src="js/number-bonds-v3.js" defer></script>
     <style>
         .main-nav {
             margin-bottom: 20px;
@@ -261,10 +261,6 @@
                                     Show Dot Patterns
                                 </label>
                                 <label>
-                                    <input type="checkbox" name="showGrid">
-                                    Show Ten Frame Grid
-                                </label>
-                                <label>
                                     <input type="checkbox" name="showLines" checked>
                                     Show Number Lines
                                 </label>
@@ -274,7 +270,7 @@
                         <div class="preview-section">
                             <h3>Preview</h3>
                             <div class="number-bond">
-                                <svg width="300" height="250" viewBox="0 0 300 250">
+                                <svg width="300" height="300" viewBox="0 0 400 400">
                                     <!-- Background for visual aids -->
                                     <g class="visual-aids-container"></g>
                                     
@@ -301,17 +297,9 @@
                                 </svg>
                             </div>
                         </div>
-
-                        <div class="tracking-section">
-                            <h4>Progress Tracking Grid</h4>
-                            <p>Track which number combinations have been practiced:</p>
-                            <div class="tracking-grid" id="trackingGrid">
-                                <!-- Grid cells will be added by JavaScript -->
-                            </div>
-                        </div>
                     </div>
-
-                    <div class="button-group">
+                    <!-- add spacing between the above preview visual aid and the below worksheet -->
+                    <div class="button-group" style="margin-top: 50px;">
                         <button type="submit" class="btn btn-primary">Generate Worksheet</button>
                         <button type="button" id="clearBtn" class="btn btn-secondary">Clear</button>
                     </div>
@@ -326,7 +314,6 @@
                 <ul>
                     <li>Customizable number ranges up to 20</li>
                     <li>Visual aids with dot patterns and ten frames</li>
-                    <li>Progress tracking grid</li>
                     <li>Mixed practice options</li>
                 </ul>
 
