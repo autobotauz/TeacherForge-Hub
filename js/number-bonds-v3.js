@@ -191,31 +191,28 @@ window.addEventListener('load', function() {
             
             // Position dots next to (to the right of) each node, aligned vertically
             var positions = {
-                topLeft: { x: 95, y: 30 },    // Adjusted x to be to the right
-                topRight: { x: 245, y: 30 },  // Adjusted x to be to the right
-                bottom: { x: 170, y: 120 }    // Adjusted x to be to the right
+                topLeft: { x: 95, y: 30 },    // Right of top-left node, adjust y if needed for alignment
+                topRight: { x: 245, y: 30 },  // Right of top-right node
+                bottom: { x: 170, y: 120 }    // Right of bottom node
             };
 
             if (problem.problemType === 'whole') {
-                // Show dots for parts to be added
-                this.createDotGroup(g, problem.part1, positions.topLeft.x + 20, positions.topLeft.y, dotSize, spacing); // Offset x further if needed
-                this.createDotGroup(g, problem.part2, positions.topRight.x + 20, positions.topRight.y, dotSize, spacing);
+                this.createDotGroup(g, problem.part1, positions.topLeft.x, positions.topLeft.y, dotSize, spacing);
+                this.createDotGroup(g, problem.part2, positions.topRight.x, positions.topRight.y, dotSize, spacing);
             } else if (problem.problemType === 'part') {
-                // Show whole and part1 next to their nodes
-                this.createDotGroup(g, problem.whole, positions.topLeft.x + 20, positions.topLeft.y, dotSize, spacing);
-                this.createDotGroup(g, problem.part1, positions.topRight.x + 20, positions.topRight.y, dotSize, spacing);
+                this.createDotGroup(g, problem.whole, positions.topLeft.x, positions.topLeft.y, dotSize, spacing);
+                this.createDotGroup(g, problem.part1, positions.topRight.x, positions.topRight.y, dotSize, spacing);
             } else {
-                // Mixed - show all
-                this.createDotGroup(g, problem.part1, positions.topLeft.x + 20, positions.topLeft.y, dotSize, spacing);
-                this.createDotGroup(g, problem.part2, positions.topRight.x + 20, positions.topRight.y, dotSize, spacing);
-                this.createDotGroup(g, problem.whole, positions.bottom.x + 20, positions.bottom.y, dotSize, spacing);
+                this.createDotGroup(g, problem.part1, positions.topLeft.x, positions.topLeft.y, dotSize, spacing);
+                this.createDotGroup(g, problem.part2, positions.topRight.x, positions.topRight.y, dotSize, spacing);
+                this.createDotGroup(g, problem.whole, positions.bottom.x, positions.bottom.y, dotSize, spacing);
             }
 
             svg.querySelector('.visual-aids').appendChild(g);
         },
 
         createDotGroup: function(g, count, startX, startY, size, spacing) {
-            var dotsPerRow = 5; // Reduced to 3 for narrower groups to fit next to nodes
+            var dotsPerRow = 5;
             
             for (var i = 0; i < count; i++) {
                 var dot = document.createElementNS("http://www.w3.org/2000/svg", "circle");
@@ -358,10 +355,8 @@ window.addEventListener('load', function() {
                         // Draw bond, dots, and number line within the inner rect
                         self.drawNumberBondPDF(doc, problems[j], innerX, innerY, innerW, innerH);
 
-                        var visualsTop = innerY + Math.min(0.48 * innerH, 48); // leave space after bond
                         if (self.visualAids.dots) {
-                            self.drawDotsPDF(doc, problems[j], innerX, visualsTop, innerW, innerH);
-                            visualsTop += 18; // space for dots area
+                            self.drawDotsPDF(doc, problems[j], innerX, innerY, innerW, innerH);
                         }
                         if (self.visualAids.lines) {
                             self.drawNumberLinePDF(doc, problems[j], innerX, innerY, innerW, innerH);
@@ -475,7 +470,7 @@ window.addEventListener('load', function() {
             // Anchor dots next to (to the right of) the associated nodes
             var dotSize = 1.4;
             var spacing = 3.6;
-            var dotsPerRow = 5; // Reduced for narrower groups to fit beside nodes
+            var dotsPerRow = 5;
 
             // Recompute the same geometry used by drawNumberBondPDF
             var cx = x + cellWidth / 2;
@@ -496,9 +491,9 @@ window.addEventListener('load', function() {
                 var blockWidth = (maxCols - 1) * spacing + dotSize * 2;
                 var blockHeight = (rows - 1) * spacing + dotSize * 2;
 
-                // Position to the right of the node, centered vertically
-                var anchorX = node.x + node.r + 4; // Right of circle + padding
-                var anchorY = node.y - (blockHeight / 2) + dotSize;
+                // Position to the right of the node, top-aligned with the node
+                var anchorX = node.x + node.r + 2; // Right of circle + reduced padding for closer placement
+                var anchorY = node.y - r + dotSize; // Align top of dot group with top of node
 
                 for (var i = 0; i < count; i++) {
                     var row = Math.floor(i / dotsPerRow);
